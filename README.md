@@ -122,5 +122,3 @@ To run the tests, use the following command:
 ```bash
 ruby test_password_generator.rb
 ```
-
-# password_generator
