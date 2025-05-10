@@ -16,16 +16,16 @@ class TestPasswordGenerator < Minitest::Test
     assert_equal 15, password.length
 
     # Ensure it contains at least one uppercase letter
-    assert_match (/[A-Z]/), password
+    assert_match(/[A-Z]/, password)
 
     # Ensure it contains at least one lowercase letter
-    assert_match (/[a-z]/), password
+    assert_match(/[a-z]/, password)
 
-    # Ensure at least 3 digits
-    assert_operator password.scan(/\d/).length, :>=, 3
+    # Ensure exactly 3 digits
+    assert_equal 3, password.scan(/\d/).length
 
-    # Ensure at least 2 special characters
-    assert_operator password.count('@%!?*^&'), :>=, 2
+    # Ensure exactly 2 special characters
+    assert_equal 2, password.count('@%!?*^&')
   end
 
   def test_invalid_options
@@ -66,15 +66,15 @@ class TestPasswordGenerator < Minitest::Test
     assert_equal 8, password.length
 
     # Ensure it contains at least one uppercase letter
-    assert_match (/[A-Z]/), password
+    assert_match(/[A-Z]/, password)
 
     # Ensure it contains at least one lowercase letter
-    assert_match (/[a-z]/), password
+    assert_match(/[a-z]/, password)
 
-    # Ensure at least one digit
-    assert_match (/\d/), password
+    # Ensure exactly 1 digit
+    assert_equal 1, password.scan(/\d/).length
 
-    # Ensure at least one special character
-    assert_match (/[@%!?*^&]/), password
+    # Ensure exactly 1 special character
+    assert_equal 1, password.count('@%!?*^&')
   end
 end

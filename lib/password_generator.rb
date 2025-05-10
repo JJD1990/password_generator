@@ -24,19 +24,24 @@ module PasswordGenerator
       def generate(length:, uppercase: false, lowercase: false, number: 0, special: 0)
         validate_options(length, uppercase, lowercase, number, special)
 
-        # Create the required characters
+        # Start with guaranteed required characters
         password = []
         password << UPPERCASE_CHARS.sample if uppercase
         password << LOWERCASE_CHARS.sample if lowercase
         password.concat(NUMBER_CHARS.sample(number))
         password.concat(SPECIAL_CHARS.chars.sample(special))
 
-        # Create the character pool for remaining characters
-        char_pool = build_char_pool(uppercase, lowercase)
-
-        # Fill the remaining length with random characters from the pool
+        # Fill remaining characters
         remaining_length = length - password.length
-        password.concat(char_pool.sample(remaining_length)) if remaining_length.positive?
+        if remaining_length > 0
+          # Only use letters for remaining characters to avoid exceeding number and special requirements
+          char_pool = []
+          char_pool.concat(UPPERCASE_CHARS) if uppercase
+          char_pool.concat(LOWERCASE_CHARS) if lowercase
+          char_pool = ['A'] if char_pool.empty? # Fallback to ensure we have characters
+
+          password.concat(char_pool.sample(remaining_length))
+        end
 
         # Shuffle and return the password
         password.shuffle.join
@@ -47,7 +52,6 @@ module PasswordGenerator
       def validate_options(length, uppercase, lowercase, number, special)
         # Calculate minimum required characters
         min_required_chars = [uppercase, lowercase].count(true) + number + special
-
         raise InvalidOptionsError, "Password length must be a positive integer" unless length.positive?
 
         if number.negative? || special.negative?
@@ -59,18 +63,6 @@ module PasswordGenerator
         end
       end
 
-      # Builds the character pool based on the specified requirements.
-      #
-      # This method constructs a pool of characters from the predefined sets
-      # (uppercase, lowercase, digits, and special characters) based on the flags
-      # passed to the method. It adds uppercase characters if the `uppercase` flag is
-      # `true`, lowercase characters if the `lowercase` flag is `true`, and includes
-      # all numeric and special characters.
-      #
-      # @param uppercase [Boolean] whether to include uppercase letters in the pool.
-      # @param lowercase [Boolean] whether to include lowercase letters in the pool.
-      #
-      # @return [Array<String>] the pool of characters that can be used for generating the password.
       def build_char_pool(uppercase, lowercase)
         pool = []
         pool.concat(UPPERCASE_CHARS) if uppercase

@@ -2,7 +2,7 @@ fileignoreconfig:
 - filename: README.md
   checksum: 39f2bd738449c29912d5f399f4f07f01886a3971c9011a0daf3ffb24ea7d5851
 - filename: lib/password_generator.rb
-  checksum: a50cca300ed68b5ff8bd4f786ceb391fbebd07ea73618e22ec25f2cf5c6217dd
+  checksum: bd68fde371bffc7c2134aa5adf305233f6fc7a3a8cbfb1404ec72829ff771767
 - filename: test/test_password_generator.rb
-  checksum: 61fdaf53c37622910afa37e465746f1d2b990b9f4902911553d8b31ccb3db61e
+  checksum: 479adad7e89be779dcbda53779e4b285040904ce9f29ecadc4def8235df82556
 version: "1.0"
